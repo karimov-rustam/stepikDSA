@@ -1,40 +1,36 @@
 package l02_fibonacci;
 
 import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by R.Karimov on 8/25/17.
  */
 public class Fibonacci {
 
-    Map<Integer, BigInteger> cache = new HashMap<>();
-
-    int cnt;
+    private static final int MOD = (int) 1e9 + 7;
 
     private BigInteger fibonacci(int n) {
-        cnt++;
-        if (n < 2) {
-            return BigInteger.valueOf(n);
+        BigInteger a = BigInteger.ZERO;
+        BigInteger b = BigInteger.ONE;
+
+        for (int i = 0; i < n; i++) {
+            BigInteger c = a.add(b);
+            // a, b <- b, c
+            a = b;
+            b = c;
         }
-        if (cache.containsKey(n)) {
-            return cache.get(n);
-        } else {
-            BigInteger res = fibonacci(n - 1).add(fibonacci(n - 2));
-            cache.put(n, res);
-            return res;
-        }
+        return a;
     }
 
     private void run(int n) {
-        System.out.println(n + ": " + fibonacci(n));
-        System.out.println(cnt + " calls");
+        BigInteger result = fibonacci(n);
+        System.out.println(n + ": " + result);
+        System.out.println(n + " % MOD: " + result.mod(BigInteger.valueOf(MOD)));
     }
 
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
-        new Fibonacci().run(1111);
+        new Fibonacci().run(111111);
         long finishTime = System.currentTimeMillis();
         System.out.println(finishTime - startTime + " ms");
     }
