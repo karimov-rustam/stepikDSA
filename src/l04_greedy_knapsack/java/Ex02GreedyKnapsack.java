@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * Created by R.Karimov on 8/29/17.
  */
-class GreedyKnapsack {
+class Ex02GreedyKnapsack {
 
     static class Item implements Comparable<Item> {
         int cost;
@@ -55,6 +55,6 @@ class GreedyKnapsack {
             items[i] = new Item(input.nextInt(), input.nextInt());
         }
         Arrays.sort(items);
-        System.out.println(new GreedyKnapsack().run(w, items));
+        System.out.println(new Ex02GreedyKnapsack().run(w, items));
     }
 }
