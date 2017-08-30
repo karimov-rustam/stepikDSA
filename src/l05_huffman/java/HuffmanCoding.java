@@ -1,4 +1,3 @@
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,7 +61,9 @@ class HuffmanCoding {
 
     void run() throws FileNotFoundException {
 
-        Scanner in = new Scanner(new File("./testdata/l05_huffman/input.txt"));
+//        Scanner in = new Scanner(
+//                new File("./testdata/l05_huffman/big_input.txt"));
+        Scanner in = new Scanner(System.in);
         String s = in.next();
         Map<Character, Integer> count = new HashMap<>();
         for (int i = 0; i < s.length(); i++) {
@@ -99,17 +100,17 @@ class HuffmanCoding {
         Node root = priorityQueue.poll();
 
         if (count.size() == 1) {
-            root.code = "0";
+            root.buildCode("0");
         } else {
             root.buildCode("");
         }
 
-        String encodedString = "";
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            encodedString += characterNodeMap.get(c).code;
+            stringBuilder.append(characterNodeMap.get(c).code);
         }
-        System.out.println(encodedString);
+        System.out.println(stringBuilder);
     }
 
 
@@ -117,6 +118,6 @@ class HuffmanCoding {
         long startTime = System.currentTimeMillis();
         new HuffmanCoding().run();
         long finishTime = System.currentTimeMillis();
-        System.out.println(finishTime - startTime + " ms");
+//        System.out.println(finishTime - startTime + " ms");
     }
 }
