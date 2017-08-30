@@ -59,21 +59,9 @@ class HuffmanCoding {
         }
     }
 
-    void run() throws FileNotFoundException {
+    void run(String string) throws FileNotFoundException {
 
-//        Scanner in = new Scanner(
-//                new File("./testdata/l05_huffman/big_input.txt"));
-        Scanner in = new Scanner(System.in);
-        String s = in.next();
-        Map<Character, Integer> count = new HashMap<>();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (count.containsKey(c)) {
-                count.put(c, count.get(c) + 1);
-            } else {
-                count.put(c, 1);
-            }
-        }
+        Map<Character, Integer> count = getCharacterIntegerMap(string);
 
         Map<Character, Node> characterNodeMap = new HashMap<>();
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
@@ -93,7 +81,7 @@ class HuffmanCoding {
         }
 
         if (count.size() == 1) {
-            sum = s.length();
+            sum = string.length();
         }
 
         System.out.println(count.size() + " " + sum);
@@ -106,18 +94,35 @@ class HuffmanCoding {
         }
 
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
+        for (int i = 0; i < string.length(); i++) {
+            char c = string.charAt(i);
             stringBuilder.append(characterNodeMap.get(c).code);
         }
         System.out.println(stringBuilder);
     }
 
+    private Map<Character, Integer> getCharacterIntegerMap(String s) {
+        Map<Character, Integer> count = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (count.containsKey(c)) {
+                count.put(c, count.get(c) + 1);
+            } else {
+                count.put(c, 1);
+            }
+        }
+        return count;
+    }
+
 
     public static void main(String[] args) throws FileNotFoundException {
+//        Scanner in = new Scanner(
+//                new File("./testdata/l05_huffman/big_input.txt"));
+        Scanner in = new Scanner(System.in);
+        String string = in.next();
         long startTime = System.currentTimeMillis();
-        new HuffmanCoding().run();
+        new HuffmanCoding().run(string);
         long finishTime = System.currentTimeMillis();
-//        System.out.println(finishTime - startTime + " ms");
+        System.out.println(finishTime - startTime + " ms");
     }
 }
