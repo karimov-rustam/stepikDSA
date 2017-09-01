@@ -7,8 +7,7 @@ import java.util.Scanner;
  */
 class BinarySearch {
 
-    private void run() throws FileNotFoundException {
-        Scanner in = new Scanner(new File("./testdata/l06_binary_search/input.txt"));
+    private void run(Scanner in) throws FileNotFoundException {
 
         int n = in.nextInt();
         int[] a = new int[n];
@@ -29,19 +28,21 @@ class BinarySearch {
     }
 
     private int binarySearch(int[] a, int x) {
-        int l = 0;
-        int r = a.length - 1;
-        while (r >= l) {
+        int l = -1;
+        int r = a.length;
+        while (r > l + 1) {
             int m = (l + r) >> 1;
-            if (a[m] == x) {
-                return m;
-            } else if (a[m] > x) {
-                r = m - 1;
+            if (a[m] <= x) {
+                l = m;
             } else {
-                l = m + 1;
+                r = m;
             }
         }
-        return -1;
+        if (l >= 0 && a[l] == x) {
+            return l + 1;
+        } else {
+            return -1;
+        }
     }
 
     private int linearSearch(int[] a, int x) {
@@ -52,9 +53,11 @@ class BinarySearch {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
+        Scanner in = new Scanner(new File("./testdata/l06_binary_search/input2.txt"));
+//        Scanner in = new Scanner(System.in);
         long startTime = System.currentTimeMillis();
-        new BinarySearch().run();
+        new BinarySearch().run(in);
         long finishTime = System.currentTimeMillis();
-        System.out.println(finishTime - startTime + " ms");
+//        System.out.println(finishTime - startTime + " ms");
     }
 }
