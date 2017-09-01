@@ -1,5 +1,6 @@
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -21,6 +22,7 @@ class GenerateBinarySearchInput {
         for (int i = 0; i < n; i++) {
             a[i] = random.nextInt(1000_000_000);
         }
+        Arrays.sort(a);
         for (int i = 0; i < k; i++) {
             b[i] = a[random.nextInt(n)];
         }

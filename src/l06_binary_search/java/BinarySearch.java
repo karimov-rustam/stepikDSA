@@ -21,10 +21,27 @@ class BinarySearch {
             b[i] = in.nextInt();
         }
         for (int i = 0; i < k; i++) {
-            int pos = linearSearch(a, b[i]);
+//            int pos = linearSearch(a, b[i]);
+            int pos = binarySearch(a, b[i]);
             System.out.print(pos + " ");
         }
         System.out.println();
+    }
+
+    private int binarySearch(int[] a, int x) {
+        int l = 0;
+        int r = a.length - 1;
+        while (r >= l) {
+            int m = (l + r) >> 1;
+            if (a[m] == x) {
+                return m;
+            } else if (a[m] > x) {
+                r = m - 1;
+            } else {
+                l = m + 1;
+            }
+        }
+        return -1;
     }
 
     private int linearSearch(int[] a, int x) {
