@@ -1,20 +1,22 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Created by R.Karimov on 9/2/17.
  */
 class Inversions {
 
+    private long count = 0;
     private int[] merge(int[] a, int[] b) {
         int i = 0;
         int j = 0;
         int[] res = new int[a.length + b.length];
         for (int k = 0; k < res.length; k++) {
-            if (j == b.length || (i < a.length && a[i] < b[j])) {
+            if (j == b.length || (i < a.length && a[i] <= b[j])) {
                 res[k] = a[i++];
             } else {
+                count += a.length - i;
                 res[k] = b[j++];
             }
         }
@@ -33,23 +35,21 @@ class Inversions {
         return merge(left, right);
     }
 
-    private void run(Scanner in) throws FileNotFoundException {
-        int n = in.nextInt();
+    long run(BufferedReader in) throws IOException {
+        int n = Integer.parseInt(in.readLine());
         int[] a = new int[n];
+        String[] tokens = in.readLine().split(" ");
         for (int i = 0; i < n; i++) {
-            a[i] = in.nextInt();
+            a[i] = Integer.parseInt(tokens[i]);
         }
         int[] sortedA = mergeSort(a);
-        for (int i = 0; i < n; i++) {
-            System.out.println(sortedA[i]);
-        }
+        return count;
+//        System.out.println(count);
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
-        Scanner in = new Scanner(new File("./src/l07_inversions/input2.txt"));
-        long startTime = System.currentTimeMillis();
-        new Inversions().run(in);
-        long finishTime = System.currentTimeMillis();
-        System.out.println(finishTime - startTime + " ms");
+    public static void main(String[] args) throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        long count = new Inversions().run(in);
+        System.out.println(count);
     }
 }
