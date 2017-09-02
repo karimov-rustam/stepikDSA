@@ -8,43 +8,43 @@ import java.io.InputStreamReader;
 class Inversions {
 
     private long count = 0;
-    private int[] merge(int[] a, int[] b) {
-        int i = 0;
-        int j = 0;
-        int[] res = new int[a.length + b.length];
-        for (int k = 0; k < res.length; k++) {
-            if (j == b.length || (i < a.length && a[i] <= b[j])) {
-                res[k] = a[i++];
+    private int[] temp;
+    private int[] a;
+
+    private void merge(int l, int m, int r) {
+        // a[l .. m - 1] a[m..r - 1] -> temp[l..r - 1] -> a[l..r - 1]
+        int i = l;
+        int j = m;
+        for (int k = l; k < r; k++) {
+            if (j == r || (i < m && a[i] <= a[j])) {
+                temp[k] = a[i++];
             } else {
-                count += a.length - i;
-                res[k] = b[j++];
+                count += m - i;
+                temp[k] = a[j++];
             }
         }
-        return res;
+        System.arraycopy(temp, l, a, l, r - l);
     }
-    private int[] mergeSort(int[] a) {
-        if (a.length == 1) return a;
-        int n = a.length;
-        int m = n / 2;
-        int[] left = new int[m];
-        int[] right = new int[n - m];
-        System.arraycopy(a, 0, left, 0, m);
-        System.arraycopy(a, m, right, 0, n - m);
-        left = mergeSort(left);
-        right = mergeSort(right);
-        return merge(left, right);
+
+    private void mergeSort(int l, int r) {
+        if (r <= l + 1) return;
+        // a[l..r - 1] -> a[l..m - 1] a[m..r - 1]
+        int m = (l + r) >> 1;
+        mergeSort(l, m);
+        mergeSort(m, r);
+        merge(l, m, r);
     }
 
     long run(BufferedReader in) throws IOException {
         int n = Integer.parseInt(in.readLine());
-        int[] a = new int[n];
+        a = new int[n];
         String[] tokens = in.readLine().split(" ");
         for (int i = 0; i < n; i++) {
             a[i] = Integer.parseInt(tokens[i]);
         }
-        int[] sortedA = mergeSort(a);
+        temp = new int[n];
+        mergeSort(0, n);
         return count;
-//        System.out.println(count);
     }
 
     public static void main(String[] args) throws IOException {
